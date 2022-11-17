@@ -2,25 +2,26 @@ const PostMessage = require('../models/postModel');
 
 const postController = {};
 
-postController.getPosts = async (req, res) => {
+postController.getPosts = async (req, res, next) => {
   try{
     const postMessages = await PostMessage.find();
-    console.log(postMessages)
-
-    res.status(200).json(postMessages);
+    res.locals.postMessages = postMessages;
+    return next();
   } catch(error) {
-    res.send({error: 'error occurred at middleware function getPosts'})
+    return next({error: 'error occurred at middleware function getPosts'})
   }
 }
 
-postController.createPost = async(req, res) => {
+postController.createPost = async(req, res, next) => {
+  const post = req.body;  
 
+  const newPost = new PostMessage(post);
   try{
-    await PostMessage.create({post}, (err, docs) => {
-      console.log(docs);
-    });
+    // console.log(newPost);
+    await newPost.save();
+    res.status(200).json(newPost)
   } catch (error) {
-    res.send({error: 'error occurred at middleware function createPost'});
+    return next({error: 'error occurred at middleware function createPost'});
   }
 }
 

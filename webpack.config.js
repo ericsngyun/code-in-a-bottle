@@ -1,14 +1,12 @@
 const path = require('path');
 const HTMLWebpackPlugin = require ('html-webpack-plugin');
-const dotenv = require('dotenv').config( {
-  path: path.join(__dirname, '.env');
-})
+
 module.exports = {
 
   // where our app will begin
   // dependency graph
   mode: process.env.NODE_ENV,
-  entry: './client/src/index.js',
+  entry: './client/index.js',
 
   output: {
     path: path.join(__dirname, '/dist'),
@@ -18,11 +16,9 @@ module.exports = {
 
   plugins: [
     new HTMLWebpackPlugin({
-      template: './client/src/index.html'
+      template: './client/index.html'
     }),
-    new webpack.DefinePlugin( {
-      'process.env': DeviceMotionEvent.parsed
-    })
+
   ],
   devServer: {
     host: 'localhost',
@@ -32,16 +28,12 @@ module.exports = {
       directory: path.resolve(__dirname, 'dist'),
       publicPath: '/'
     },
-    proxy: {
-      '/api/**': {
-        target: 'http://localhost:3000/',
-        secure: false,
-      },
-      '/assets/**': {
-        target: 'http://localhost:3000/',
-        secure: false,
-      },
-    },
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:3000/',
+    //     router: () => 'http://localhost:8080',
+    //   },
+    // },
   }, 
 
   module: {
@@ -57,15 +49,12 @@ module.exports = {
         }
       },
       {
-        test: /\.s[ac]ss$/i,
-        use: [
-          // Creates `style` nodes from JS strings
-          "style-loader",
-          // Translates CSS into CommonJS
-          "css-loader",
-          // Compiles Sass to CSS
-          "sass-loader",
-        ],
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(png|jpe?g|gif)$/i,

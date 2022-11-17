@@ -4,8 +4,10 @@ const router = express.Router();
 
 const postController = require('../controllers/posts');
 
-router.get('/', postController.getPosts);
+router.get('/', postController.getPosts, (req,res) => {
+  res.status(200).send(res.locals.postMessages);
+});
 
-router.post('/', postController.createPost) 
+router.post('/', postController.createPost); 
 
 module.exports = router;

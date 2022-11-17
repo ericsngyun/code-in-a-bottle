@@ -10,22 +10,23 @@ const postRoutes = require('./routes/posts');
 
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(path.resolve(__dirname, '../client')));
 app.use(express.json());
-app.use(express.urlencoded({extended: false}))
+
+// app.use(express.static(path.resolve(__dirname, '../client')));
+app.use(express.urlencoded({extended: true}))
 // app.use(bodyParser.json({limit: '30mb', extended: true}))
 app.use(cors());
+app.use('/posts', postRoutes);
 
 
 // CONNECTION TO MONGODB DATABASE
-mongoose.connect(process.env.MONGODB_RI, {
+mongoose.connect("mongodb+srv://eyun010:expressjs@crud.qn7xnz2.mongodb.net/?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }, () => console.log('Database Connected'));
 
 
 // route handlers here
-app.use('/posts', postRoutes);
 
 
 app.get('/', (req, res) => res.send('hello test'));
