@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { BrowserRouter as Router,  Routes} from 'react-router-dom'
-import { Container, AppBar, Typography, Grow, Grid, createTheme, ThemeProvider} from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { Container, AppBar, Typography, Grow, Grid, createTheme, ThemeProvider, Card, Avatar} from '@mui/material';
+import { useDispatch} from 'react-redux';
 import { getPosts } from './src/actions/posts';
+import CustomizedDialogs from './src/components/Modal';
 
 import bottleimg from './src/images/message-in-a-bottle.png';
 import Posts from './src/components/Posts/Posts';
 import Form from './src/components/Form/Form';
-import { orange } from '@mui/material/colors';
+import { maxWidth } from '@mui/system';
 
 // import './styles.css';
 
@@ -23,6 +24,9 @@ const theme = createTheme({
     secondary: {
       main: '#f50057',
     },
+    third: {
+      main: '#ff9800'
+    },
     background: {
       default: '#eeeeee',
     },
@@ -32,10 +36,10 @@ const theme = createTheme({
 
 function App() {
   const dispatch = useDispatch();
-
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
-    dispatch(getPosts);
+    dispatch(getPosts());
   }, [dispatch])
 
   return (
@@ -50,19 +54,36 @@ function App() {
             alignItems: 'center',
             height: '75px'}}>
             <img src = {bottleimg} alt = "bottle" height = "60" width = "60" sx = {{marginLeft: '15px'}}/>
-            <Typography variant = "h2" sx ={{fontSize : 40}}> code in a bottle</Typography>
-          </AppBar>
-        <Container maxWidth = "xl" sx = {{paddingTop: '75px'}}>
-          <Grow in>
-            <Grid container justify = "space-between" alignItems = "stretch" spacing = {3}>
-              <Grid item xs = {12} sm = {7}>
-                <Posts />
-              </Grid>
-              <Grid item xs = {12} sm = {4}>
-                <Form />
-              </Grid>
+            <Typography variant = "h2" sx ={{fontSize : 40, marginRight: '20px'}}> code in a bottle</Typography>
+          <CustomizedDialogs>
+            <Form/>
+          </CustomizedDialogs>
+
+        </AppBar>
+        <Container maxWidth = 'false' sx = {{paddingTop: '100px'}}>
+          <Grid container sx = {{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
+          }}>
+            <Grid item>
+              <Grow in>
+                <Card >
+                  <Typography variant = 'h4' > Filter by : </Typography>
+                </Card>
+              </Grow>
             </Grid>
-          </Grow>
+            <Grid item>
+              <Grow in>
+                <Grid container justify = "space-between" alignItems = "stretch" spacing = {3} gridTemplateRows = '3' >
+                  <Grid item>
+                    <Posts />
+                  </Grid>
+                </Grid>
+              </Grow>
+            </Grid>
+          </Grid>
         </Container>
       </div>
     </ThemeProvider>

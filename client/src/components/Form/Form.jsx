@@ -1,18 +1,22 @@
 import React, { useState }from 'react'
-import { TextField, Button, Typography, Paper, Grid, Select, MenuItem, FormControl, InputLabel} from '@mui/material'
+import { TextField, Button, Typography, Paper, Grid} from '@mui/material'
+// import {DeleteIcon, SendIcon} from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
+// import { useSelector  } from 'react-redux';
+
 
 import { createPost } from '../../actions/posts';
 
 const Form = () => {
   const [postData, setPostData] = useState({
-    creator: '', title: '', message: '', topic: ''
+    name: '', title: '', message: '', topic: ''
   });
+
   const dispatch = useDispatch();
 
-  const handleSubmit =  (event) => {
+
+  const handleSubmit =  async (event) => {
     event.preventDefault();
-    console.log(postData);
     dispatch(createPost(postData));
   }
 
@@ -21,20 +25,20 @@ const Form = () => {
   }
 
   return (
-    <Paper sx = {{padding: 3}}>
+    <Paper sx = {{padding: 3, minWidth: 500}}>
       <form autoComplete = 'off' noValidate onSubmit = {handleSubmit}>
         <Grid container direction = {'column'} spacing = {2}>
           <Grid item>
-          <Typography variant = "h6" sx = {{mx: 'auto'}}> Creating a Post </Typography>
+          {/* <Typography variant = "h6" sx = {{mx: 'auto'}}> Send a Bottle </Typography> */}
           </Grid>
           <Grid item>
             <TextField 
               name = "creator" 
               variant = "outlined" 
-              label = "Creator" 
+              label = "Name" 
               fullWidth
-              value = {postData.creator}
-              onChange = {(e) => setPostData({ ...postData, creator: e.target.value })}
+              value = {postData.name}
+              onChange = {(e) => setPostData({ ...postData, name: e.target.value })}
             />
           </Grid>
           <Grid item>
@@ -49,44 +53,36 @@ const Form = () => {
           </Grid>
           <Grid item>
             <TextField 
-              name = "message" 
-              variant = "outlined" 
-              label = "Message" 
-              fullWidth
-              value = {postData.message}
-              onChange = {(e) => setPostData({ ...postData, message: e.target.value })}
-            />
-          </Grid>
-          <Grid item>
-            {/* <FormControl sx = {{minWidth : 20}}>
-              <InputLabel>Topic</InputLabel>
-              <Select
-                name = "topic"
-                value = {postData.topic}
-                label = "Topic"
-                fullWidth
-                onChange = {(e) => setPostData({...Button, topic: e.target.value})}>
-                <MenuItem value = {'Algorithms'}>Algorithms</MenuItem>
-                <MenuItem value = {'React'}>React</MenuItem>
-                <MenuItem value = {'Debugging'}>Debugging</MenuItem>
-                <MenuItem value = {'General'}>General</MenuItem> 
-                <MenuItem value = {'Hack-Hour'}>Hack-Hour</MenuItem>
-              </Select>
-            </FormControl> */}
-            <TextField 
               name = "topic" 
               variant = "outlined" 
-              label = "Topic" 
+              label = "Subject" 
               fullWidth 
               value = {postData.topic}
               onChange = {(e) => setPostData({ ...postData, topic: e.target.value })}
             />
           </Grid>
           <Grid item>
-            <Button variant = "contained" size = "large" type = "submit" fullWidth>Submit</Button>
+            <TextField 
+              name = "message" 
+              variant = "outlined" 
+              label = "Message" 
+              fullWidth
+              value = {postData.message}
+              rows = {4}
+              multiline
+              onChange = {(e) => setPostData({ ...postData, message: e.target.value })}
+            />
           </Grid>
+        
           <Grid item>
-            <Button variant = "container" size = "small" onClick = {clear} fullWidth>Clear</Button>
+            <Grid container direction = "row" justifyContent = 'center' alignItems = 'center' spacing = {3}>
+              <Grid item>
+                <Button variant = "contained" type = "submit" fullWidth>Send</Button>
+              </Grid>
+              <Grid item> 
+                <Button variant = "outlined"  onClick = {clear} fullWidth>Delete</Button>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </form>

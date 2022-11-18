@@ -4,10 +4,10 @@ const router = express.Router();
 
 const postController = require('../controllers/posts');
 
-router.get('/', postController.getPosts, (req,res) => {
-  res.status(200).send(res.locals.postMessages);
-});
+router.get('/', postController.getPosts);
 
 router.post('/', postController.createPost); 
+
+router.patch('/:id/likePost', postController.upVote);
 
 module.exports = router;

@@ -1,11 +1,13 @@
 const path = require('path');
 const HTMLWebpackPlugin = require ('html-webpack-plugin');
+// const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 
 module.exports = {
 
   // where our app will begin
   // dependency graph
   mode: process.env.NODE_ENV,
+  // mode: 'development',
   entry: './client/index.js',
 
   output: {
@@ -18,7 +20,7 @@ module.exports = {
     new HTMLWebpackPlugin({
       template: './client/index.html'
     }),
-
+    // new NodePolyfillPlugin()
   ],
   devServer: {
     host: 'localhost',
@@ -49,14 +51,17 @@ module.exports = {
         }
       },
       {
+
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
+
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
       {
+
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
@@ -67,6 +72,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+
   }
 }

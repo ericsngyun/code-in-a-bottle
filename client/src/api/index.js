@@ -5,9 +5,11 @@ const url = 'http://localhost:3000/posts';
 
 export const fetchPosts = () => axios.get(url);
 
-export const createPost = (newPost) => {
+export const makePost = (newPost) => {
+
   axios.post(url, newPost)
-    .then(data => console.log(response.data))
-    .catch((error) => console.log(error));
+    .then((res) => console.log('this is makePost output:' , res.data))
+    .then((res) => res = res.data);
+  
     // .then((res) => console.log(res)) // return 'success'
 }
